@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
+from .forms import *
 
 # Create your views here.
 def index(request):
@@ -9,7 +10,13 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 def new(request):
-    return render(request, 'posts/new.html')
+    form = PostForm()
+    context = {
+        'form': form
+    }
+    if form.is_valid():
+        form.save()
+    return render(request, 'posts/new.html', context)
 
 def create(request):
     if request.method == "POST":
@@ -28,24 +35,21 @@ def show(request, post_id):
 
 def edit(request, post_id):
     post = Post.objects.get(id=post_id)
+    form = PostForm(instance=post)
     context = {
-        'post': post
+        'post': post,
+        'form': form
     }
     return render(request, 'posts/edit.html', context)
 
 def update(request, post_id):
     if request.method == "POST":
-        edit_title = request.POST.get('edit_title')
-        edit_content = request.POST.get('edit_content')
         post = Post.objects.get(pk=post_id)
-        post.title = edit_title
-        post.content = edit_content
-        post.save()
-        context = {
-            'post': post
-        }
+        form = PostForm(request.POST, instance = post)
+        if form.is_valid():
+            form.save()
         return redirect('posts:show', post_id)
-        
+
 def delete(request, post_id):
     post = Post.objects.get(pk=post_id)
     post.delete()
