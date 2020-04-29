@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 def index(request):
@@ -18,13 +19,13 @@ def new(request):
         form.save()
     return render(request, 'posts/new.html', context)
 
+@require_POST
 def create(request):
-    if request.method == "POST":
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        post = Post.objects.create(title = title, content = content)
-        post.save()
-        return redirect('posts:index')
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+    post = Post.objects.create(title = title, content = content)
+    post.save()
+    return redirect('posts:index')
 
 def show(request, post_id):
     post = Post.objects.get(id=post_id)
@@ -42,13 +43,13 @@ def edit(request, post_id):
     }
     return render(request, 'posts/edit.html', context)
 
+@require_POST
 def update(request, post_id):
-    if request.method == "POST":
-        post = Post.objects.get(pk=post_id)
-        form = PostForm(request.POST, instance = post)
-        if form.is_valid():
-            form.save()
-        return redirect('posts:show', post_id)
+    post = Post.objects.get(pk=post_id)
+    form = PostForm(request.POST, instance = post)
+    if form.is_valid():
+        form.save()
+    return redirect('posts:show', post_id)
 
 def delete(request, post_id):
     post = Post.objects.get(pk=post_id)

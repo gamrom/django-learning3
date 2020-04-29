@@ -1,9 +1,9 @@
 {% extends 'base.html'%}
 {% block content%}
 
-{{post.title}}
-{{post.content}}
-<a href="{% url 'posts:edit' post.id %}">수정</a>
-<a href="{% url 'posts:delete' post.id%}">삭제</a>
+  {{post.title}}
+  {{post.content}}
+  <a href="{% url 'posts:edit' post.id %}">수정</a>
+  <a href="{% url 'posts:delete' post.id%}">삭제</a>
 
 {% endblock %}
