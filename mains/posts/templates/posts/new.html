@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+
+{%block content%}
+  여기는 new페이지
+  <form action="{% url 'posts:create' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" class="form-control" name="title">
+    <textarea name="content" class="form-control"></textarea>
+    <button class="btn btn-primary" type=submit>확인</button>
+  </form>
+{% endblock%}

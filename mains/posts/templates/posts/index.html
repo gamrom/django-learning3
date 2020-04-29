@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<a href="/posts/new">새글쓰러가기</a>
+<br><br>
+
+{% for post in posts %}
+  제목:   {{ post.title }}
+  <a href="{% url 'posts:show' post.id %}">자세히보기</a> <br>
+
+{% endfor %}
+
+
+{% endblock %}
