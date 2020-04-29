@@ -17,7 +17,7 @@ def create(request):
         content = request.POST.get('content')
         post = Post.objects.create(title = title, content = content)
         post.save()
-        return render(request, 'posts/index.html')
+        return redirect('posts:index')
 
 def show(request, post_id):
     post = Post.objects.get(id=post_id)
@@ -35,8 +35,8 @@ def edit(request, post_id):
 
 def update(request, post_id):
     if request.method == "POST":
-        edit_title = request.POST.get('title')
-        edit_content = request.POST.get('content')
+        edit_title = request.POST.get('edit_title')
+        edit_content = request.POST.get('edit_content')
         post = Post.objects.get(pk=post_id)
         post.title = edit_title
         post.content = edit_content
@@ -44,4 +44,9 @@ def update(request, post_id):
         context = {
             'post': post
         }
-        return render(request, 'posts/show.html', context)
+        return redirect('posts:show', post_id)
+        
+def delete(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    post.delete()
+    return redirect('posts:index')

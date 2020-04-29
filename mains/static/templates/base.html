@@ -17,7 +17,9 @@
 </head>
 <body>
   <div class="container">
+    <a href="{% url 'posts:index'%}">메인으로</a> <br>
     {% block content%}
+
     {% endblock %}
   </div>
 </body>
