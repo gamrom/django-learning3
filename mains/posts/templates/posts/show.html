@@ -3,6 +3,11 @@
 
   {{post.title}}
   {{post.content}}
+  <br>
+  {% if post.photo %}
+  <img src="{{post.photo.url}}" alt="">
+  {% endif %}
+
   <a href="{% url 'posts:edit' post.id %}">수정</a>
   <a href="{% url 'posts:delete' post.id%}">삭제</a>
   <br>

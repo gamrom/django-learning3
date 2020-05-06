@@ -21,10 +21,14 @@ def new(request):
 
 @require_POST
 def create(request):
-    title = request.POST.get('title')
-    content = request.POST.get('content')
-    post = Post.objects.create(title = title, content = content)
-    post.save()
+    # title = request.POST.get('title')
+    # content = request.POST.get('content')
+    # photo = request.POST.get('photo')
+    # post = Post.objects.create(title = title, content = content)
+    # post.save()
+    form = PostForm(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
     return redirect('posts:index')
 
 def show(request, post_id):
