@@ -6,4 +6,8 @@ from .models import *
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'content', 'created_at'] # 커스터마이징 코드
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['post', 'content']
+
 admin.site.register(Post, PostAdmin)
+admin.site.register(Comment, CommentAdmin)

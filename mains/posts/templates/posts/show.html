@@ -5,5 +5,16 @@
   {{post.content}}
   <a href="{% url 'posts:edit' post.id %}">수정</a>
   <a href="{% url 'posts:delete' post.id%}">삭제</a>
+  <br>
+  <div>이 아래는 이제 댓글이 나와야합니다</div>
 
+  <form action="{% url 'posts:comment_create' post.id %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="comment_content">
+    <button type="submit">댓글확인</button>
+  </form>
+
+  {% for comment in comments %}
+    {{comment.content}}
+  {% endfor%}
 {% endblock %}

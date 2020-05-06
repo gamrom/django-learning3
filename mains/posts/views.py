@@ -29,8 +29,10 @@ def create(request):
 
 def show(request, post_id):
     post = Post.objects.get(id=post_id)
+    comments = Comment.objects.all().filter(post = post.pk)
     context = {
-        'post': post
+        'post': post,
+        'comments': comments
     }
     return render(request, 'posts/show.html', context)
 
@@ -55,3 +57,15 @@ def delete(request, post_id):
     post = Post.objects.get(pk=post_id)
     post.delete()
     return redirect('posts:index')
+
+#Comment
+
+@require_POST
+def comment_create(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    comment_content = request.POST.get('comment_content')
+    comment = Comment()
+    comment.post = post
+    comment.content = comment_content
+    comment.save()
+    return redirect('posts:show')
